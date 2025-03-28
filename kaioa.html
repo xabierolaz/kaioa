@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaioa Studios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .card {
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            margin-right: 0;
+            width: 16rem;
+            height: 9rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        .card:hover {
+            transform: scale(1.10);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+        .card-description {
+            font-size: 1rem;
+            color: white;
+            display: none;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+        .project-category-button {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: #e5e7eb;
+            color: #374151;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid #d1d5db;
+            text-decoration: none;
+            color: #374151;
+        }
+        .project-category-button:hover {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        .project-category-button.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        .hidden {
+            display: none;
+        }
+        .filtered {
+            display: block !important;
+        }
+        .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        #project-list {
+            display: grid;
+            grid-template-columns: repeat(3, 16rem);
+            gap: 1rem;
+        }
+        .tab-button {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: #e5e7eb;
+            color: #374151;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid #d1d5db;
+            text-decoration: none;
+            color: #374151;
+        }
+        .tab-button:hover {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        .tab-button.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        #about-us {
+            display: none;
+        }
+        .language-button {
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            margin-left: 0.5rem;
+            margin-bottom: 0.5rem;
+            background-color: #e5e7eb;
+            color: #374151;
+            font-size: 0.75rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid #d1d5db;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .language-button:hover {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        .language-button.active {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #2563eb;
+        }
+        #language-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0;
+        }
+        .only-eng {
+            display: none;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+        #tab-buttons {
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        header h1 {
+            margin-right: 2rem;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-blue-500 text-white py-4 ">
+        <h1 class="text-2xl font-semibold">Kaioa Studios</h1>
+        <section id="tab-buttons" >
+            <a href="#" class="tab-button active" data-tab="projects">Projects</a>
+            <a href="#" class="tab-button" data-tab="about">About Us</a>
+        </section>
+        <section id="language-buttons">
+            <button class="language-button" data-language="en">ENG</button>
+            <button class="language-button" data-language="es">ES</button>
+        </section>
+    </header>
+
+    <main class="container mx-auto mt-8 p-4">
+        <section id="project-categories" class="mb-6 text-center">
+            <button class="project-category-button active" data-category="all">All</button>
+            <button class="project-category-button" data-category="game">Games</button>
+            <button class="project-category-button" data-category="video">Video Production</button>
+        </section>
+        <section id="project-list">
+        </section>
+        <section id="about-us" class="text-center">
+            <h2 class="text-xl font-semibold mb-4">About Us</h2>
+            <p class="text-gray-700">This is a page to tell you about us.</p>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 text-center mt-8">
+        <p>© 2024 Kaioa Studios. All rights reserved.</p>
+    </footer>
+    <script>
+        const projects = [
+            {
+                title: "Back to Life Podcast",
+                category: "video",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=Podcast",
+                color: "#f06292",
+                description: "A podcast about life."
+            },
+            {
+                title: "Basajaun Animation Short",
+                category: "video",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=Animation",
+                color: "#4fc3f7",
+                description: "An animation short film."
+            },
+            {
+                title: "Wow Classic Remake Cinematic",
+                category: "video",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=Cinematic",
+                color: "#ffb74d",
+                description: "A cinematic remake."
+            },
+            {
+                title: "Name of the Wind Teaser",
+                category: "video",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=Teaser",
+                color: "#81c784",
+                description: "A teaser trailer."
+            },
+            {
+                title: "Park Off!",
+                category: "game",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=Park+Off",
+                color: "#ba68c8",
+                description: "A parking game."
+            },
+            {
+                title: "CliffWald Online",
+                category: "game",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=CliffWald",
+                color: "#64b5f6",
+                description: "An online adventure game."
+            },
+            {
+                title: "Ply",
+                category: "game",
+                imageUrl: "https://placehold.co/160x90/EEE/31343C?text=Ply",
+                color: "#a1887f",
+                description: "A puzzle game."
+            },
+        ];
+
+        const projectList = document.getElementById("project-list");
+        const tabButtons = document.querySelectorAll(".tab-button");
+        const aboutUsSection = document.getElementById("about-us");
+        const languageButtons = document.querySelectorAll(".language-button");
+        const esButton = document.querySelector('[data-language="es"]');
+        const enButton = document.querySelector('[data-language="en"]');
+        const categoryButtons = document.querySelectorAll(".project-category-button");
+        const defaultLanguage = "en";
+        let currentLanguage = defaultLanguage;
+
+        const translations = {
+            en: {
+                projects: "Projects",
+                aboutUs: "About Us",
+                all: "All",
+                games: "Games",
+                videoProduction: "Video Production",
+                description: "Description",
+                aboutUsText: "This is a page to tell you about us.",
+                title: "Kaioa Studios",
+                footer: "© 2024 Kaioa Studios. All rights reserved.",
+            },
+            es: {
+                projects: "Proyectos",
+                aboutUs: "Sobre Nosotros",
+                all: "Todos",
+                games: "Juegos",
+                videoProduction: "Producción de Video",
+                description: "Descripción",
+                aboutUsText: "Esta es una página para contarte sobre nosotros.",
+                title: "Kaioa Studios",
+                footer: "© 2024 Kaioa Studios. Todos los derechos reservados.",
+            },
+        };
+
+        function getTranslation(key, lang = currentLanguage) {
+            return translations[lang] ? translations[lang][key] || translations[defaultLanguage][key] : translations[defaultLanguage][key];
+        }
+
+        function createProjectCard(project) {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.style.backgroundColor = project.color;
+            if (project.imageUrl) {
+                card.style.backgroundImage = `url(${project.imageUrl})`;
+            }
+
+            const title = document.createElement("h3");
+            title.className = "card-title";
+            title.textContent = project.title;
+
+            const description = document.createElement("p");
+            description.className = "card-description";
+            description.textContent = project.description;
+            if(currentLanguage === 'es'){
+                description.textContent = project.description;
+            }
+
+            const image = document.createElement("img");
+            image.src = project.imageUrl;
+            image.alt = project.title;
+            image.style.marginTop = '0.5rem';
+
+            card.appendChild(title);
+            card.appendChild(description);
+            card.appendChild(image);
+
+            return card;
+        }
+
+        function displayProjects(category) {
+            projectList.innerHTML = "";
+            projects.forEach((project) => {
+                const card = createProjectCard(project);
+                if (category === "all" || project.category === category) {
+                    card.classList.add("filtered");
+                } else {
+                    card.classList.add("hidden");
+                }
+                projectList.appendChild(card);
+            });
+        }
+
+        function updateContent(lang) {
+            currentLanguage = lang;
+            document.title = getTranslation("title", lang);
+            document.querySelector(`[data-tab="projects"]`).textContent = getTranslation("projects", lang);
+            document.querySelector(`[data-tab="about"]`).textContent = getTranslation("aboutUs", lang);
+            document.querySelector(`[data-category="all"]`).textContent = getTranslation("all", lang);
+            document.querySelector(`[data-category="game"]`).textContent = getTranslation("games", lang);
+            document.querySelector(`[data-category="video"]`).textContent = getTranslation("videoProduction", lang);
+            aboutUsSection.querySelector("h2").textContent = getTranslation("aboutUs", lang);
+            aboutUsSection.querySelector("p").textContent = getTranslation("aboutUsText", lang);
+            document.querySelector("footer p").textContent = getTranslation("footer", lang);
+
+            displayProjects(document.querySelector(".project-category-button.active").dataset.category);
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            projectList.style.display = tab === "projects" ? "grid" : "none";
+            aboutUsSection.style.display = tab === "about" ? "block" : "none";
+        }
+
+        function switchLanguage(language) {
+            document.querySelectorAll('.language-button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`[data-language="${language}"]`).classList.add('active');
+            updateContent(language);
+            enButton.classList.toggle("only-eng", language === "es");
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener("click", () => switchTab(button.dataset.tab));
+        });
+
+        languageButtons.forEach(button => {
+            button.addEventListener("click", () => switchLanguage(button.dataset.language));
+        });
+
+        categoryButtons.forEach((button) => {
+            button.addEventListener("click", function () {
+                const category = this.dataset.category;
+                document.querySelectorAll('.project-category-button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                displayProjects(category);
+            });
+        });
+
+        displayProjects("all");
+        switchTab("projects");
+        switchLanguage(defaultLanguage);
+    </script>
+</body>
+</html>
+
